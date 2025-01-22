@@ -2,30 +2,30 @@ import { allAws } from "contentlayer/generated";
 // app/posts/[slug]/page.tsx
 import { format, parseISO } from "date-fns";
 
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 export const generateStaticParams = () =>
-  allAws.map((post) => ({ slug: post._raw.flattenedPath }));
+  allAws.map((post) => ({ slug: post._raw.flattenedPath.split("/")[1] }));
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: { slug: string };
-}) => {
-  const p = await params;
-
+export const generateMetadata = async ({ params }: PageProps) => {
+  const resolvedParams = await params;
   const post = allAws.find(
-    (post) => post._raw.flattenedPath.split("/")[1] === p.slug
+    (post) => post._raw.flattenedPath.split("/")[1] === resolvedParams.slug
   );
-  if (!post) throw new Error(`Post not found for slug: ${p.slug}`);
+  if (!post) throw new Error(`Post not found for slug: ${resolvedParams.slug}`);
   return { title: post.title };
 };
 
-const PostLayout = async ({ params }: { params: { slug: string } }) => {
-  const p = await params;
-
+const PostLayout = async ({ params }: PageProps) => {
+  const resolvedParams = await params;
   const post = allAws.find(
-    (post) => post._raw.flattenedPath.split("/")[1] === p.slug
+    (post) => post._raw.flattenedPath.split("/")[1] === resolvedParams.slug
   );
-  if (!post) throw new Error(`Post not found for slug: ${p.slug}`);
+  if (!post) throw new Error(`Post not found for slug: ${resolvedParams.slug}`);
 
   return (
     <article>
