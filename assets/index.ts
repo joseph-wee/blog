@@ -6,3 +6,4 @@ export { default as icon_arrow_down } from "./icon_arrow_down.svg";
 export { default as icon_arrow_down_dark } from "./icon_arrow_down_dark.svg";
 export { default as icon_search } from "./icon_search.svg";
 export { default as icon_menu } from "./icon_menu.svg";
+export { default as icon_check } from "./icon_check.svg";
