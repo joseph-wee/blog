@@ -4,7 +4,7 @@
 }
 
 .markdown {
-  @apply text-gray-900 leading-normal break-words;
+  @apply text-black leading-normal break-words;
 }
 
 .markdown > * + * {
@@ -24,7 +24,11 @@
 }
 
 .markdown a {
-  @apply text-blue-600 font-semibold;
+  @apply text-light-purple font-semibold;
+}
+
+.markdown p {
+  @apply my-[16px];
 }
 
 .markdown strong a {
@@ -56,11 +60,11 @@
 }
 
 .markdown blockquote {
-  @apply text-base border-l-4 border-gray-300 pl-4 pr-4 text-gray-600;
+  @apply py-[1px] px-4 text-base border-l-4 border-light-purple bg-gray-100;
 }
 
 .markdown code {
-  @apply font-mono text-sm inline bg-gray-200 rounded px-1 py-05;
+  @apply font-mono text-sm inline bg-gray-200 rounded px-[6px] py-05;
 }
 
 .markdown pre {
@@ -72,7 +76,23 @@
 }
 
 .markdown ul {
-  @apply text-base pl-8;
+  @apply text-base pl-8 list-disc;
+}
+
+.markdown .task-list-item {
+  @apply flex items-center;
+}
+
+.markdown .contains-task-list {
+  @apply list-none pl-[4px];
+}
+
+.markdown [type="checkbox"] {
+  @apply appearance-none w-[16px] h-[16px] bg-clip-content border border-gray-400 rounded mr-[6px];
+}
+
+.markdown [type="checkbox"]:checked {
+  @apply appearance-none w-[16px] h-[16px] bg-clip-content border-none rounded bg-light-purple bg-[url('../assets/icon_check.svg')] bg-center;
 }
 
 .markdown ol {
