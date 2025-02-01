@@ -11,9 +11,12 @@ import { usePathname } from "next/navigation";
 import { allAws, allCsses } from "@/.contentlayer/generated";
 import {
   icon_arrow_right,
+  icon_arrow_right_dark,
   icon_menu,
+  icon_menu_dark,
   icon_moon,
   icon_search,
+  icon_search_dark,
   icon_sun,
 } from "@/assets";
 
@@ -49,8 +52,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const path = usePathname(); // 라우팅 될 때 마다 url
   const [mount, setMount] = useState(false); // 마운트 유무
-  const [theme, setTheme] = useState(false); // 다크모드, 라이트모드
+  const [dark, setDark] = useState("null"); // 다크모드, 라이트모드
   const [menuActive, setMenuActive] = useState(false); // 모바일 메뉴 활성화 유무
 
   const all = [allCsses, allAws].sort((a: Posts, b: Posts): number => {
@@ -70,40 +74,87 @@ export default function RootLayout({
     setDirActive([...dirAcitve]);
   };
 
+  /** 디렉토리 활성화 훅 - 패스 감지해서 해당 디렉토리 활성화 */
+  useEffect(() => {
+    for (let i = 0; i < all.length; i++) {
+      if (all[i][0].url.split("/")[1] === path.split("/")[1]) {
+        dirAcitve[i] = true;
+        setDirActive([...dirAcitve]);
+        return;
+      }
+    }
+  }, [path]);
+
+  /** dark 값에 따라 다크모드 세팅 훅 */
+  useEffect(() => {
+    // 첫 페이지 접속, 새로고침시
+    if (dark === "null") {
+      return;
+    }
+
+    if (dark === "true") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("dark", "true");
+      return;
+    }
+    document.documentElement.classList.remove("dark");
+    localStorage.setItem("dark", "false");
+    return;
+  }, [dark]);
+
   /** 마운트 되면 true */
   useEffect(() => {
     setMount(true);
   }, []);
 
-  /** theme 값에 따라 light, dark */
-  // TODO: 사용자 선호 모드 찾아서 로컬스토리지에 저장 후 그 값 참조해서 모드 할당
+  /** 로컬 스토리지 값 검사후 사용자 시스템 테마 설정에 따라 다크모드 세팅 */
   useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.remove("dark");
+    // 로컬 스토리지에 다크모드 세팅값 없을 경우 세팅
+    if (localStorage.getItem("dark") === null) {
+      if (window.matchMedia("(prefers-color-schme: dark)").matches) {
+        localStorage.setItem("dark", "true");
+        setDark("true");
+        return;
+      }
+      localStorage.setItem("dark", "false");
+      setDark("false");
+    }
+
+    // 로컬 스토리지 다크모드 세팅값 true
+    if (localStorage.getItem("dark") === "true") {
+      setDark("true");
       return;
     }
-    document.documentElement.classList.add("dark");
-  }, [theme]);
 
-  const path = usePathname(); // 라우팅 될 때 마다 url
+    // 로컬 스토리지 다크모드 세팅값 false
+    setDark("false");
+    return;
+  }, []);
+
+  // 다크모드 핸들러
+  const darkHandler = () => {
+    dark === "true" ? setDark("false") : setDark("true");
+  };
 
   return (
     <html lang="en">
       <body
         className={`flex pl-[280px] md1000:pl-0 ${
           !mount && "opacity-0"
-        }  ease-in-out duration-200`}
+        } transition-opacity  ease-in-out duration-200 dark:bg-dark-base25`}
       >
         {/** 사이드바 데스크탑 */}
-        <div className="fixed left-0 p-[12px] w-[280px] h-screen border-r-[1px] border-r-black md1000:hidden">
+        <div className="fixed left-0 p-[12px] w-[280px] h-screen border-r-[1px] border-r-black md1000:hidden dark:border-r-dark-base60">
           <div className="flex items-center justify-between mb-3">
             <Link href={"/"}>
-              <h1 className="font-bold text-xl">Joseph.log</h1>
+              <h1 className="font-bold text-xl text-light-purple dark:text-dark-purple">
+                Joseph.log
+              </h1>
             </Link>
             {/** 버튼 - 라이트, 다크 모드 */}
             <button
-              className="flex items-center justify-center w-[22px] h-[22px] rounded-[100px] bg-gray-200 dark:bg-gray-800  ease-in-out duration-200"
-              onClick={() => setTheme(!theme)}
+              className="flex items-center justify-center w-[22px] h-[22px] rounded-[100px] bg-light-base25 dark:bg-dark-base40   ease-in-out duration-200"
+              onClick={() => darkHandler()}
             >
               <Image
                 src={icon_sun}
@@ -122,30 +173,43 @@ export default function RootLayout({
             </button>
           </div>
           {/** 검색 - 추후 구현 */}
-          <div className="flex mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px]">
-            <Image src={icon_search} alt="icon_search" width={18} height={18} />
+          <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] dark:bg-dark-base10 dark:border-dark-base60">
+            <Image
+              src={icon_search}
+              alt="icon_search"
+              width={18}
+              height={18}
+              className="dark:opacity-0"
+            />
+            <Image
+              src={icon_search_dark}
+              alt="icon_search"
+              width={18}
+              height={18}
+              className="absolute opacity-0 dark:opacity-100"
+            />
             <input
               type="text"
               placeholder="Search..."
               className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-400 placeholder:text-[14px]"
+              placeholder:text-gray-600 placeholder:text-[14px] dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
             />
           </div>
           {/** 메뉴 */}
-          <div className="text-[14px] cursor-default">
+          <div className="text-[14px] cursor-default dark:text-dark-text">
             {all.map((el, num) => {
               return (
                 <div
                   key={`list${num}`}
-                  className={
-                    dirAcitve[num]
-                      ? `ease-in-out duration-200
-                      h-[${(el.length + 1) * 32}px] overflow-hidden`
-                      : " ease-in-out duration-200 h-[32px] overflow-hidden"
-                  }
+                  className={`transition-all duration-200 ease-in-out overflow-hidden`}
+                  style={{
+                    height: dirAcitve[num]
+                      ? `${(el.length + 1) * 32}px`
+                      : "32px",
+                  }}
                 >
                   <div
-                    className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100"
+                    className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35"
                     onClick={() => listDirActiveHandler(num)}
                   >
                     <Image
@@ -155,12 +219,23 @@ export default function RootLayout({
                       height={14}
                       className={
                         dirAcitve[num]
-                          ? "ease-in-out duration-200 rotate-90"
-                          : "ease-in-out duration-200 rotate-0"
+                          ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
+                          : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
+                      }
+                    />
+                    <Image
+                      src={icon_arrow_right_dark}
+                      alt="icon_arrow"
+                      width={14}
+                      height={14}
+                      className={
+                        dirAcitve[num]
+                          ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
+                          : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
                       }
                     />
 
-                    <span className="font-semibold leading-7">
+                    <span className="font-semibold leading-[30px]">
                       {`${el[0]._raw.sourceFileDir}`}
                     </span>
                   </div>
@@ -173,14 +248,16 @@ export default function RootLayout({
                         className="cursor-default"
                       >
                         <div
-                          className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple ${
-                            path === post.url && "border-light-purple"
+                          className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
+                            path === post.url
+                              ? "border-light-purple dark:border-dark-purple"
+                              : " dark:border-dark-base35"
                           }`}
                         >
                           <div
-                            className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 ${
+                            className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
                               path === post.url &&
-                              "text-light-purple bg-gray-100"
+                              "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
                             }`}
                           >{`${post.title}`}</div>
                         </div>
@@ -195,19 +272,25 @@ export default function RootLayout({
 
         {/** 사이드바 모바일 */}
         <div
-          className={`hidden fixed left-0 overflow-hidden p-[12px] w-full border-r-[1px] border-r-black bg-white 
-         duration-200 ease-in-out
-        md1000:block ${menuActive ? "h-screen" : "h-[52px]"}`}
+          className={`hidden fixed z-10 left-0 overflow-hidden w-full bg-white 
+         duration-200 ease-in-out dark:bg-dark-base25
+        md1000:block ${menuActive ? "h-screen" : "h-[53px]"}`}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div
+            className={`flex items-center justify-between mb-3 px-[12px] h-[53px] border-b border-b-black ${
+              menuActive && "border-none"
+            }`}
+          >
             <Link href={"/"}>
-              <h1 className="font-bold text-xl">Joseph.log</h1>
+              <h1 className="font-bold text-xl text-light-purple dark:text-dark-purple">
+                Joseph.log
+              </h1>
             </Link>
             {/** 버튼 - 라이트, 다크 모드 */}
             <div className="flex items-center gap-[8px]">
               <button
-                className="flex items-center justify-center w-[20px] h-[20px] rounded-[100px] bg-gray-200 dark:bg-gray-800 ease-in-out duration-200"
-                onClick={() => setTheme(!theme)}
+                className="flex items-center justify-center w-[20px] h-[20px] rounded-[100px] bg-gray-200 dark:bg-dark-base40 ease-in-out duration-200"
+                onClick={() => darkHandler()}
               >
                 <Image
                   src={icon_sun}
@@ -224,85 +307,126 @@ export default function RootLayout({
                   className="absolute opacity-0 dark:opacity-100"
                 />
               </button>
-              <button onClick={() => setMenuActive(!menuActive)}>
+              <button
+                onClick={() => setMenuActive(!menuActive)}
+                className="dark:absolute dark:opacity-0"
+              >
                 <Image src={icon_menu} alt="icon_menu" width={28} height={28} />
+              </button>
+              <button
+                onClick={() => setMenuActive(!menuActive)}
+                className="absolute opacity-0 dark:static dark:opacity-100"
+              >
+                <Image
+                  src={icon_menu_dark}
+                  alt="icon_menu"
+                  width={28}
+                  height={28}
+                />
               </button>
             </div>
           </div>
-          {/** 검색 - 추후 구현 */}
-          <div className="flex mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px]">
-            <Image src={icon_search} alt="icon_search" width={18} height={18} />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-400 placeholder:text-[14px]"
-            />
-          </div>
-          {/** 메뉴 */}
-          <div className="text-[14px] cursor-default">
-            {all.map((el, num) => {
-              return (
-                <div
-                  key={`list${num}`}
-                  className={
-                    dirAcitve[num]
-                      ? `ease-in-out duration-200
-                      h-[${(el.length + 1) * 32}px] overflow-hidden`
-                      : " ease-in-out duration-200 h-[32px] overflow-hidden"
-                  }
-                >
+          <div className="px-[12px]">
+            {/** 검색 - 추후 구현 */}
+            <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] dark:bg-dark-base10 dark:border-dark-base60">
+              <Image
+                src={icon_search}
+                alt="icon_search"
+                width={18}
+                height={18}
+              />
+              <Image
+                src={icon_search_dark}
+                alt="icon_search"
+                width={18}
+                height={18}
+                className="absolute opacity-0 dark:opacity-100"
+              />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="px-[10px] w-full text-[14px] focus:outline-none
+              placeholder:text-gray-600 placeholder:text-[14px] dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
+              />
+            </div>
+            {/** 메뉴 */}
+            <div className="text-[14px] cursor-default dark:text-dark-text">
+              {all.map((el, num) => {
+                return (
                   <div
-                    className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100"
-                    onClick={() => listDirActiveHandler(num)}
+                    key={`list${num}`}
+                    className={`transition-all duration-200 ease-in-out overflow-hidden`}
+                    style={{
+                      height: dirAcitve[num]
+                        ? `${(el.length + 1) * 32}px`
+                        : "32px",
+                    }}
                   >
-                    <Image
-                      src={icon_arrow_right}
-                      alt="icon_arrow"
-                      width={14}
-                      height={14}
-                      className={
-                        dirAcitve[num]
-                          ? "ease-in-out duration-200 rotate-90"
-                          : "ease-in-out duration-200 rotate-0"
-                      }
-                    />
+                    <div
+                      className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35"
+                      onClick={() => listDirActiveHandler(num)}
+                    >
+                      <Image
+                        src={icon_arrow_right}
+                        alt="icon_arrow"
+                        width={14}
+                        height={14}
+                        className={
+                          dirAcitve[num]
+                            ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
+                            : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
+                        }
+                      />
+                      <Image
+                        src={icon_arrow_right_dark}
+                        alt="icon_arrow"
+                        width={14}
+                        height={14}
+                        className={
+                          dirAcitve[num]
+                            ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
+                            : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
+                        }
+                      />
 
-                    <span className="font-semibold leading-7">
-                      {`${el[0].type}`}
-                    </span>
-                  </div>
+                      <span className="font-semibold leading-[30px]">
+                        {`${el[0].type}`}
+                      </span>
+                    </div>
 
-                  {el.map((post, j) => {
-                    return (
-                      <Link
-                        href={post.url}
-                        key={`${j}asba`}
-                        className="cursor-default"
-                        onClick={() => setMenuActive(!menuActive)}
-                      >
-                        <div
-                          className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple ${
-                            path === post.url && "border-light-purple"
-                          }`}
+                    {el.map((post, j) => {
+                      return (
+                        <Link
+                          href={post.url}
+                          key={`${j}asba`}
+                          className="cursor-default"
+                          onClick={() => setMenuActive(!menuActive)}
                         >
                           <div
-                            className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 ${
-                              path === post.url &&
-                              "text-light-purple bg-gray-100"
+                            className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
+                              path === post.url
+                                ? "border-light-purple dark:border-dark-purple"
+                                : " dark:border-dark-base35"
                             }`}
-                          >{`${post.title}`}</div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              );
-            })}
+                          >
+                            <div
+                              className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
+                                path === post.url &&
+                                "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
+                              }`}
+                            >{`${post.title}`}</div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         {/** main content */}
-        <main className="markdown mx-auto pt-[46px] px-[20px] w-[720px] overflow-hidden md1000:max-w-[720px] md1000:pt-[56px]">
+        <main className="markdown mx-auto pt-[46px] px-[20px] w-[720px] overflow-hidden md1000:max-w-[720px] md1000:pt-[80px]">
           {children}
         </main>
       </body>
