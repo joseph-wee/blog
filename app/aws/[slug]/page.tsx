@@ -9,23 +9,29 @@ interface PageProps {
 }
 
 export const generateStaticParams = () =>
-  allAws.map((post) => ({ slug: post._raw.flattenedPath.split("/")[1] }));
+  allAws.map((post) => ({ slug: post.url.split("/")[1] }));
 
 export const generateMetadata = async ({ params }: PageProps) => {
   const resolvedParams = await params;
   const post = allAws.find(
-    (post) => post._raw.flattenedPath.split("/")[1] === resolvedParams.slug
+    (post) => post.url.split("/")[2] === decodeURIComponent(resolvedParams.slug)
   );
-  if (!post) throw new Error(`Post not found for slug: ${resolvedParams.slug}`);
+  if (!post)
+    throw new Error(
+      `Post not found for slug: ${decodeURIComponent(resolvedParams.slug)}`
+    );
   return { title: post.title };
 };
 
 const PostLayout = async ({ params }: PageProps) => {
   const resolvedParams = await params;
   const post = allAws.find(
-    (post) => post._raw.flattenedPath.split("/")[1] === resolvedParams.slug
+    (post) => post.url.split("/")[2] === decodeURIComponent(resolvedParams.slug)
   );
-  if (!post) throw new Error(`Post not found for slug: ${resolvedParams.slug}`);
+  if (!post)
+    throw new Error(
+      `Post not found for slug: ${decodeURIComponent(resolvedParams.slug)}`
+    );
 
   return (
     <article>
@@ -33,9 +39,9 @@ const PostLayout = async ({ params }: PageProps) => {
         <h1 className="mb-[4px]">{post.title}</h1>
         <time
           dateTime={post.date}
-          className="flex items-center justify-end mb-1 text-xs text-gray-600"
+          className="flex items-center justify-end mb-1 text-xs text-gray-600 dark:text-dark-base70"
         >
-          {format(parseISO(post.date), "LLLL d, yyyy")}
+          {format(parseISO(post.date), "yyyy-MM-dd")}
         </time>
       </div>
       <div dangerouslySetInnerHTML={{ __html: post.body.html }} />
