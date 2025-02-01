@@ -9,7 +9,7 @@ interface PageProps {
 }
 
 export const generateStaticParams = () =>
-  allAws.map((post) => ({ slug: post.url.split("/")[1] }));
+  allAws.map((post) => ({ slug: post.url.split("/")[2] }));
 
 export const generateMetadata = async ({ params }: PageProps) => {
   const resolvedParams = await params;
