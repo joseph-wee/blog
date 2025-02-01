@@ -12,7 +12,7 @@ export const css = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: "string",
-      resolve: (post) => `/${post._raw.flattenedPath}`, // flattenedPath: 파일 경로를 의미함, -> 여기서는 /post/**.md가 될 것임.
+      resolve: (post) => `/${post._raw.flattenedPath.replace(/ /g, "_")}`, // flattenedPath: 파일 경로를 의미함, -> 여기서는 /post/**.md가 될 것임.
     },
   },
 }));
@@ -27,7 +27,7 @@ export const aws = defineDocumentType(() => ({
   computedFields: {
     url: {
       type: "string",
-      resolve: (post) => `/${post._raw.flattenedPath}`,
+      resolve: (post) => `/${post._raw.flattenedPath.replace(/ /g, "_")}`,
     },
   },
 }));
