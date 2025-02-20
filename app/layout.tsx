@@ -133,7 +133,12 @@ export default function RootLayout({
 
   // 다크모드 핸들러
   const darkHandler = () => {
-    dark === "true" ? setDark("false") : setDark("true");
+    if (dark === "true") {
+      setDark("false");
+      return;
+    }
+    setDark("true");
+    return;
   };
 
   return (
