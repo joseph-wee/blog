@@ -59,6 +59,14 @@
   @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6;
 }
 
+/** img 상하 마진 추가 */
+.markdown img {
+  @apply my-9;
+}
+.markdown table {
+  @apply text-base border-gray-600;
+}
+
 .markdown blockquote {
   @apply py-[1px] px-4 text-base border-l-4 border-light-purple bg-gray-100 dark:border-dark-purple dark:bg-dark-base10;
 }
