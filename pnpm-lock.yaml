@@ -32,6 +32,9 @@ importers:
       remark-gfm:
         specifier: ^3.0.1
         version: 3.0.1
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
