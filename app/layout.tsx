@@ -57,6 +57,24 @@ export default function RootLayout({
   const [dark, setDark] = useState("null"); // 다크모드, 라이트모드
   const [menuActive, setMenuActive] = useState(false); // 모바일 메뉴 활성화 유무
 
+  allAws.sort((a: Post, b: Post): number => {
+    const upperCaseA = a.title.toUpperCase();
+    const upperCaseB = b.title.toUpperCase();
+
+    if (upperCaseA > upperCaseB) return 1;
+    if (upperCaseA < upperCaseB) return -1;
+    return 0;
+  });
+
+  allCsses.sort((a: Post, b: Post): number => {
+    const upperCaseA = a.title.toUpperCase();
+    const upperCaseB = b.title.toUpperCase();
+
+    if (upperCaseA > upperCaseB) return 1;
+    if (upperCaseA < upperCaseB) return -1;
+    return 0;
+  });
+
   const all = [allCsses, allAws].sort((a: Posts, b: Posts): number => {
     const upperCaseA = a[0].type.toUpperCase();
     const upperCaseB = b[0].type.toUpperCase();
