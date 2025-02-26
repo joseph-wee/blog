@@ -1,6 +1,7 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import rehypePrism from "rehype-prism-plus";
 import remarkGfm from "remark-gfm";
+import { visit } from "unist-util-visit";
 
 export const css = defineDocumentType(() => ({
   name: "Css", // generated 에 생성될 폴더 이름
@@ -32,12 +33,28 @@ export const aws = defineDocumentType(() => ({
   },
 }));
 
+/** 이미지 경로 images/ 앞에 '/' 추가 해주는 커스텀 플러그인 */
+// 옵시디언에서 경로가 images/ 로 시작함
+// 이 경로가 그대로 쓰이면 이미지가 보이지 않기에 앞에 '/'추가함
+const rehypeModifyImageLinks = () => {
+  return (tree: any) => {
+    visit(tree, "element", (node) => {
+      if (node.tagName === "img" && node.properties?.src) {
+        // 이미지 링크가 'images/'로 시작하면 앞에 '/' 추가
+        if (node.properties.src.startsWith("images/")) {
+          node.properties.src = "/" + node.properties.src;
+        }
+      }
+    });
+  };
+};
+
 export default makeSource({
   contentDirPath: "./posts",
   documentTypes: [css, aws],
   markdown: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypePrism],
+    rehypePlugins: [rehypePrism, rehypeModifyImageLinks],
   },
 });
 
