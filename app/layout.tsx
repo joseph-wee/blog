@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { allAws, allCsses } from "@/.contentlayer/generated";
+import { allAws, allCloudflares, allCsses } from "@/.contentlayer/generated";
 import {
   icon_arrow_right,
   icon_arrow_right_dark,
@@ -75,14 +75,25 @@ export default function RootLayout({
     return 0;
   });
 
-  const all = [allCsses, allAws].sort((a: Posts, b: Posts): number => {
-    const upperCaseA = a[0].type.toUpperCase();
-    const upperCaseB = b[0].type.toUpperCase();
+  allCloudflares.sort((a: Post, b: Post): number => {
+    const upperCaseA = a.title.toUpperCase();
+    const upperCaseB = b.title.toUpperCase();
 
     if (upperCaseA > upperCaseB) return 1;
     if (upperCaseA < upperCaseB) return -1;
     return 0;
-  }); // 모든 포스트
+  });
+
+  const all = [allCsses, allAws, allCloudflares].sort(
+    (a: Posts, b: Posts): number => {
+      const upperCaseA = a[0].type.toUpperCase();
+      const upperCaseB = b[0].type.toUpperCase();
+
+      if (upperCaseA > upperCaseB) return 1;
+      if (upperCaseA < upperCaseB) return -1;
+      return 0;
+    }
+  ); // 모든 포스트
 
   const [dirAcitve, setDirActive] = useState(new Array(all.length).fill(false)); // 디렉토리 활성화 유무
 

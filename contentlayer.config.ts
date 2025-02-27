@@ -33,6 +33,21 @@ export const aws = defineDocumentType(() => ({
   },
 }));
 
+export const cloudflare = defineDocumentType(() => ({
+  name: "Cloudflare",
+  filePathPattern: `cloudflare/**/*.md`,
+  fields: {
+    title: { type: "string", required: true },
+    date: { type: "date", required: true },
+  },
+  computedFields: {
+    url: {
+      type: "string",
+      resolve: (post) => `/${post._raw.flattenedPath.replace(/ /g, "_")}`,
+    },
+  },
+}));
+
 /** 이미지 경로 images/ 앞에 '/' 추가 해주는 커스텀 플러그인 */
 // 옵시디언에서 경로가 images/ 로 시작함
 // 이 경로가 그대로 쓰이면 이미지가 보이지 않기에 앞에 '/'추가함
@@ -51,7 +66,7 @@ const rehypeModifyImageLinks = () => {
 
 export default makeSource({
   contentDirPath: "./posts",
-  documentTypes: [css, aws],
+  documentTypes: [css, aws, cloudflare],
   markdown: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypePrism, rehypeModifyImageLinks],
