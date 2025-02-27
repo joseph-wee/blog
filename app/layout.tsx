@@ -173,9 +173,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`flex pl-[280px] md1000:pl-0 ${
+        className={`flex  pl-[280px] md1000:pl-0 bg-white ${
           !mount && "opacity-0"
-        } transition-opacity  ease-in-out duration-200 dark:bg-dark-base25`}
+        } transition duration-200 ease-in-out dark:bg-dark-base25`}
       >
         {/** 사이드바 데스크탑 */}
         <div className="fixed left-0 p-[12px] w-[280px] h-screen border-r-[1px] border-r-black md1000:hidden dark:border-r-dark-base60">
@@ -207,7 +207,11 @@ export default function RootLayout({
             </button>
           </div>
           {/** 검색 - 추후 구현 */}
-          <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] dark:bg-dark-base10 dark:border-dark-base60">
+          <div
+            className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px]
+          duration-200 ease-in-out bg-white
+          dark:bg-dark-base10 dark:border-dark-base60"
+          >
             <Image
               src={icon_search}
               alt="icon_search"
@@ -226,7 +230,9 @@ export default function RootLayout({
               type="text"
               placeholder="Search..."
               className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-600 placeholder:text-[14px] dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
+              placeholder:text-gray-600 placeholder:text-[14px] 
+             duration-200 ease-in-out bg-white
+              dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
             />
           </div>
           {/** 메뉴 */}
@@ -341,28 +347,27 @@ export default function RootLayout({
                   className="absolute opacity-0 dark:opacity-100"
                 />
               </button>
-              <button
-                onClick={() => setMenuActive(!menuActive)}
-                className="dark:absolute dark:opacity-0"
-              >
-                <Image src={icon_menu} alt="icon_menu" width={28} height={28} />
-              </button>
-              <button
-                onClick={() => setMenuActive(!menuActive)}
-                className="absolute opacity-0 dark:static dark:opacity-100"
-              >
+              <button onClick={() => setMenuActive(!menuActive)}>
+                <Image
+                  src={icon_menu}
+                  alt="icon_menu"
+                  width={28}
+                  height={28}
+                  className="dark:absolute dark:opacity-0"
+                />
                 <Image
                   src={icon_menu_dark}
                   alt="icon_menu"
                   width={28}
                   height={28}
+                  className="absolute opacity-0 dark:static dark:opacity-100"
                 />
               </button>
             </div>
           </div>
           <div className="px-[12px]">
             {/** 검색 - 추후 구현 */}
-            <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] dark:bg-dark-base10 dark:border-dark-base60">
+            <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] duration-200 ease-in-out bg-white dark:bg-dark-base10 dark:border-dark-base60">
               <Image
                 src={icon_search}
                 alt="icon_search"
@@ -380,7 +385,7 @@ export default function RootLayout({
                 type="text"
                 placeholder="Search..."
                 className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-600 placeholder:text-[14px] dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
+              placeholder:text-gray-600 placeholder:text-[14px] duration-200 ease-in-out bg-white dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
               />
             </div>
             {/** 메뉴 */}
