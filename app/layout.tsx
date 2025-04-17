@@ -4,6 +4,7 @@ import "./prism.css";
 
 import { useEffect, useState } from "react";
 
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -172,6 +173,10 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <Head>
+        <meta name="apple-mobile-web-app-title" content="AppTitle" />
+        {/* 여기에 다른 메타 태그도 추가 가능 */}
+      </Head>
       <body
         className={`flex  pl-[280px] md1000:pl-0 bg-white ${
           !mount && "opacity-0"
