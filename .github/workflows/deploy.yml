@@ -1,8 +1,9 @@
 name: deploy
 on:
-  push:
-    branches:
-      - develop
+# 클라우드 플레어로 이전하여 더 이상 사용하지 않음
+#   push:
+#     branches:
+#       - develop
 
 jobs:
   build:
