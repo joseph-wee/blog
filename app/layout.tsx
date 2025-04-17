@@ -174,7 +174,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <meta name="apple-mobile-web-app-title" content="AppTitle" />
+        <meta name="apple-mobile-web-app-title" content="Joseph.log" />
         {/* 여기에 다른 메타 태그도 추가 가능 */}
       </Head>
       <body
