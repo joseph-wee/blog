@@ -83,7 +83,20 @@
   @apply block bg-transparent p-0 overflow-visible rounded-none dark:bg-dark-base00;
 }
 
+/** pl-4 값 주니까 딱 적당 */
 .markdown ul {
+  @apply text-base pl-4 list-disc;
+}
+
+/** 
+아래와 같이 작성된 경우 두번째 - test 의 들여쓰기가
+적당히 되기 위해서는 아래 css를 적용해야함.
+
+- test
+  - test
+
+*/
+.markdown li > ul {
   @apply text-base pl-8 list-disc;
 }
 
