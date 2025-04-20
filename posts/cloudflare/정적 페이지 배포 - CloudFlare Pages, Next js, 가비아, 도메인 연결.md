@@ -1,6 +1,7 @@
 ---
 title: 정적 페이지 배포 - CloudFlare Pages, Next js, 가비아, 도메인 연결
 date: 2025-02-27
+description: CloudFlare Pages를 사용하여 Next js 정적 페이지 배포를 하고 가비아에서 구입한 도메인을 이용하여 도메인을 연결해보자. 그리고 CloudFlare Rules, Bulk Redirects를 사용하여 리디렉션 규칙을 설정하자.
 ---
 ## 개요
 

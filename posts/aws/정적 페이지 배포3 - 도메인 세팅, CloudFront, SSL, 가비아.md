@@ -1,6 +1,7 @@
 ---
 title: 정적 페이지 배포3 - 도메인 세팅, CloudFront, SSL, 가비아
 date: 2025-02-21
+description: 구입한 도메인, SSL 인증서, CloudFront를 연결해보자.
 ---
 ## 개요
 

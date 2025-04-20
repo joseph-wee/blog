@@ -1,12 +1,13 @@
 ---
 title: 정적 페이지 배포1 - S3, Next.js, pnpm
 date: 2025-02-21
+description: S3를 이용하여 버킷생성 후 정적 페이지를 업로드하여 웹 호스팅을 해보자.
 ---
 ## 개요
 
 - S3를 이용하여 버킷생성 후 정적 페이지를 업로드하여 웹 호스팅을 해보자.
 - 정적 페이지는 Next.js의 static export, pnpm을 이용하여 빌드하여 준비하였다. 순서는 아래와 같다.
-	1. 기본 개념 정리
+	1. 개념 정리
 	2. 버킷 생성
 	3. 버킷 환경 설정
 	4. 정적 페이지 파일 업로드 - 수동
@@ -17,14 +18,14 @@ date: 2025-02-21
 ### S3
 
 -  **스토리지 서비스**로 다양한 목적에 맞게 데이터를 저장하고 보호 할 수 있으며 데이터 엑세스에 대한 관리를 제공한다. 
-- [공식문서](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/Welcome.html)
+- 자세한 내용은 [공식문서](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/Welcome.html) 참고
 
 ### 버킷
 
 - S3에 저장된 객체에 대한 저장된 객체에 대한 컨테이너이다.
 - 버킷 하나당 하나의 저장소라고 보면 된다.
 - 버킷에 대한 엑세스 제어, 버전 관리, 웹 호스팅등 다양한 기능을 제공한다.
-- [공식문서](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/UsingBucket.html)
+- 자세한 내용은 [공식문서](https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/userguide/UsingBucket.html) 참고
 
 
 
@@ -218,7 +219,8 @@ date: 2025-02-21
 
 ### 깃허브 액션 워크 플로우 생성
 
-- Github Actions란 빌드, 테스트 및 배포 파이프라인을 자동화 할 수 있는 CI/CD플랫폼이다. [공식문서](https://docs.github.com/ko/actions/about-github-actions/understanding-github-actions)
+- Github Actions란 빌드, 테스트 및 배포 파이프라인을 자동화 할 수 있는 CI/CD플랫폼이다.
+- 자세한 내용은 [공식문서](https://docs.github.com/ko/actions/about-github-actions/understanding-github-actions)를 확인하자.
 - 아래는 깃허브 워크 플로우이다. 나의 경우에는 next.js의 static export를 활성화해놓고 빌드할때 pnpm을 사용하고 싶었기에 아래와 같이 작성되었다.
 - 내용을 요약하자면 develop 브랜치에 push가 되면 이를 감지하여 아래 워크 플로우가 실행된다.
 
