@@ -9,6 +9,8 @@ export const css = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     date: { type: "date", required: true },
+    description: { type: "string", required: true },
+    // tags: { type: "list", of: { type: "string" }, required: true }, 나중에 필요하다고 생각되면 추가 하자
   },
   computedFields: {
     url: {
@@ -24,6 +26,7 @@ export const aws = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     date: { type: "date", required: true },
+    description: { type: "string", required: true },
   },
   computedFields: {
     url: {
@@ -39,6 +42,7 @@ export const cloudflare = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     date: { type: "date", required: true },
+    description: { type: "string", required: true },
   },
   computedFields: {
     url: {
