@@ -24,7 +24,7 @@ export const generateMetadata = async ({ params }: PageProps) => {
       title: post.title,
       description: post.description,
       type: "article",
-      images: [{ url: "https://joseph-log.vercel.app/img_OG.png" }],
+      images: [{ url: "https://josephlog.info/img_OG.png" }],
     },
   };
 };

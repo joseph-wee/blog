@@ -181,10 +181,7 @@ export default function RootLayout({
           content="개발관련 기록을 남기는 공간입니다."
         />
         <meta name="og:type" content="website" />
-        <meta
-          name="og:image"
-          content="https://joseph-log.vercel.app/img_OG.png"
-        />
+        <meta name="og:image" content="https://josephlog.info/img_OG.png" />
         {/* 여기에 다른 메타 태그도 추가 가능 */}
       </Head>
       <body
