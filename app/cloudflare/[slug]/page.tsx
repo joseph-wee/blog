@@ -20,7 +20,16 @@ export const generateMetadata = async ({ params }: PageProps) => {
     throw new Error(
       `Post not found for slug: ${decodeURIComponent(resolvedParams.slug)}`
     );
-  return { title: post.title };
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      images: [{ url: "https://joseph-log.vercel.app/img_OG.png" }],
+    },
+  };
 };
 
 const PostLayout = async ({ params }: PageProps) => {
