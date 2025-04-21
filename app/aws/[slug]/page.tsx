@@ -1,6 +1,7 @@
 import { allAws } from "contentlayer/generated";
-// app/posts/[slug]/page.tsx
-import { format, parseISO } from "date-fns";
+
+import Post from "@/components/Post";
+import { generatePostMetadata } from "@/functions/generatePostMetadata";
 
 interface PageProps {
   params: Promise<{
@@ -20,19 +21,10 @@ export const generateMetadata = async ({ params }: PageProps) => {
     throw new Error(
       `Post not found for slug: ${decodeURIComponent(resolvedParams.slug)}`
     );
-  return {
-    title: post.title,
-    description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: "article",
-      images: [{ url: "https://josephlog.info/img_OG.png" }],
-    },
-  };
+  return generatePostMetadata(post);
 };
 
-const PostLayout = async ({ params }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
   const resolvedParams = await params;
   const post = allAws.find(
     (post) => post.url.split("/")[2] === decodeURIComponent(resolvedParams.slug)
@@ -42,20 +34,7 @@ const PostLayout = async ({ params }: PageProps) => {
       `Post not found for slug: ${decodeURIComponent(resolvedParams.slug)}`
     );
 
-  return (
-    <article>
-      <div>
-        <h1 className="mb-[4px]">{post.title}</h1>
-        <time
-          dateTime={post.date}
-          className="flex items-center justify-end mb-1 text-xs text-gray-600 dark:text-dark-base70"
-        >
-          {format(parseISO(post.date), "yyyy-MM-dd")}
-        </time>
-      </div>
-      <div dangerouslySetInnerHTML={{ __html: post.body.html }} />
-    </article>
-  );
+  return <Post post={post} />;
 };
 
-export default PostLayout;
+export default Page;
