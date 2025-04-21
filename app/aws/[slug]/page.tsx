@@ -1,7 +1,7 @@
 import { allAws } from "contentlayer/generated";
 
 import Post from "@/components/Post";
-import { generatePostMetadata } from "@/functions/generatePostMetadata";
+import { generatePostMetadata } from "@/utils/generatePostMetadata";
 
 interface PageProps {
   params: Promise<{
