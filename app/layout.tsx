@@ -236,78 +236,80 @@ export default function RootLayout({
             />
           </div>
           {/** 메뉴 */}
-          <div className="text-[14px] cursor-default dark:text-dark-text">
-            {all.map((el, num) => {
-              return (
-                <div
-                  key={`list${num}`}
-                  className={`transition-all duration-200 ease-in-out overflow-hidden`}
-                  style={{
-                    height: dirAcitve[num]
-                      ? `${(el.length + 1) * 32}px`
-                      : "32px",
-                  }}
-                >
-                  <div
-                    className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35"
-                    onClick={() => listDirActiveHandler(num)}
+          <nav className="text-[14px] cursor-default dark:text-dark-text">
+            <ul>
+              {all.map((el, num) => {
+                return (
+                  <li
+                    key={`list${num}`}
+                    className={`transition-all duration-200 ease-in-out overflow-hidden`}
+                    style={{
+                      height: dirAcitve[num]
+                        ? `${(el.length + 1) * 32}px`
+                        : "32px",
+                    }}
                   >
-                    <Image
-                      src={icon_arrow_right}
-                      alt="icon_arrow"
-                      width={14}
-                      height={14}
-                      className={
-                        dirAcitve[num]
-                          ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
-                          : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
-                      }
-                    />
-                    <Image
-                      src={icon_arrow_right_dark}
-                      alt="icon_arrow"
-                      width={14}
-                      height={14}
-                      className={
-                        dirAcitve[num]
-                          ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
-                          : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
-                      }
-                    />
+                    <button
+                      className="flex gap-[4px] pl-[2px] h-[32px] w-full rounded-[4px] cursor-default hover:bg-gray-100 dark:hover:bg-dark-base35"
+                      onClick={() => listDirActiveHandler(num)}
+                    >
+                      <Image
+                        src={icon_arrow_right}
+                        alt="icon_arrow"
+                        width={14}
+                        height={14}
+                        className={
+                          dirAcitve[num]
+                            ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
+                            : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
+                        }
+                      />
+                      <Image
+                        src={icon_arrow_right_dark}
+                        alt="icon_arrow"
+                        width={14}
+                        height={14}
+                        className={
+                          dirAcitve[num]
+                            ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
+                            : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
+                        }
+                      />
 
-                    <span className="font-semibold leading-[30px]">
-                      {`${el[0]._raw.sourceFileDir}`}
-                    </span>
-                  </div>
+                      <span className="font-semibold leading-[30px]">
+                        {`${el[0]._raw.sourceFileDir}`}
+                      </span>
+                    </button>
 
-                  {el.map((post, j) => {
-                    return (
-                      <Link
-                        href={post.url}
-                        key={`${j}asba`}
-                        className="cursor-default"
-                      >
-                        <div
-                          className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
-                            path === post.url
-                              ? "border-light-purple dark:border-dark-purple"
-                              : " dark:border-dark-base35"
-                          }`}
-                        >
-                          <div
-                            className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
-                              path === post.url &&
-                              "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
-                            }`}
-                          >{`${post.title}`}</div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
+                    <ul>
+                      {el.map((post, j) => {
+                        return (
+                          <li key={`${j}asba`}>
+                            <Link href={post.url} className="cursor-default">
+                              <div
+                                className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
+                                  path === post.url
+                                    ? "border-light-purple dark:border-dark-purple"
+                                    : " dark:border-dark-base35"
+                                }`}
+                              >
+                                <div
+                                  className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
+                                    path === post.url &&
+                                    "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
+                                  }`}
+                                >{`${post.title}`}</div>
+                              </div>
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </div>
 
         {/** 사이드바 모바일 */}
@@ -389,79 +391,83 @@ export default function RootLayout({
               />
             </div>
             {/** 메뉴 */}
-            <div className="text-[14px] cursor-default dark:text-dark-text">
-              {all.map((el, num) => {
-                return (
-                  <div
-                    key={`list${num}`}
-                    className={`transition-all duration-200 ease-in-out overflow-hidden`}
-                    style={{
-                      height: dirAcitve[num]
-                        ? `${(el.length + 1) * 32}px`
-                        : "32px",
-                    }}
-                  >
-                    <div
-                      className="flex gap-[4px] pl-[2px] h-[32px] rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35"
-                      onClick={() => listDirActiveHandler(num)}
+            <nav className="text-[14px] cursor-default dark:text-dark-text">
+              <ul>
+                {all.map((el, num) => {
+                  return (
+                    <li
+                      key={`list${num}`}
+                      className={`transition-all duration-200 ease-in-out overflow-hidden`}
+                      style={{
+                        height: dirAcitve[num]
+                          ? `${(el.length + 1) * 32}px`
+                          : "32px",
+                      }}
                     >
-                      <Image
-                        src={icon_arrow_right}
-                        alt="icon_arrow"
-                        width={14}
-                        height={14}
-                        className={
-                          dirAcitve[num]
-                            ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
-                            : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
-                        }
-                      />
-                      <Image
-                        src={icon_arrow_right_dark}
-                        alt="icon_arrow"
-                        width={14}
-                        height={14}
-                        className={
-                          dirAcitve[num]
-                            ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
-                            : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
-                        }
-                      />
+                      <button
+                        className="flex gap-[4px] pl-[2px] w-full h-[32px] rounded-[4px] cursor-default hover:bg-gray-100 dark:hover:bg-dark-base35"
+                        onClick={() => listDirActiveHandler(num)}
+                      >
+                        <Image
+                          src={icon_arrow_right}
+                          alt="icon_arrow"
+                          width={14}
+                          height={14}
+                          className={
+                            dirAcitve[num]
+                              ? "ease-in-out duration-200 rotate-90 dark:opacity-0 dark:absolute"
+                              : "ease-in-out duration-200 rotate-0 dark:opacity-0 dark:absolute"
+                          }
+                        />
+                        <Image
+                          src={icon_arrow_right_dark}
+                          alt="icon_arrow"
+                          width={14}
+                          height={14}
+                          className={
+                            dirAcitve[num]
+                              ? "ease-in-out duration-200 rotate-90 absolute opacity-0 dark:opacity-100 dark:static"
+                              : "ease-in-out duration-200 rotate-0 absolute opacity-0 dark:opacity-100 dark:static"
+                          }
+                        />
 
-                      <span className="font-semibold leading-[30px]">
-                        {`${el[0].type}`}
-                      </span>
-                    </div>
-
-                    {el.map((post, j) => {
-                      return (
-                        <Link
-                          href={post.url}
-                          key={`${j}asba`}
-                          className="cursor-default"
-                          onClick={() => setMenuActive(!menuActive)}
-                        >
-                          <div
-                            className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
-                              path === post.url
-                                ? "border-light-purple dark:border-dark-purple"
-                                : " dark:border-dark-base35"
-                            }`}
-                          >
-                            <div
-                              className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
-                                path === post.url &&
-                                "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
-                              }`}
-                            >{`${post.title}`}</div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
+                        <span className="font-semibold leading-[30px]">
+                          {`${el[0].type}`}
+                        </span>
+                      </button>
+                      <ul>
+                        {el.map((post, j) => {
+                          return (
+                            <li key={`${j}asba`}>
+                              <Link
+                                href={post.url}
+                                className="cursor-default"
+                                onClick={() => setMenuActive(!menuActive)}
+                              >
+                                <div
+                                  className={`ml-[8px] flex items-center h-[30px] border-l-2 border-gray-200 hover:border-light-purple dark:hover:border-dark-purple ${
+                                    path === post.url
+                                      ? "border-light-purple dark:border-dark-purple"
+                                      : " dark:border-dark-base35"
+                                  }`}
+                                >
+                                  <div
+                                    className={`ml-[2px] pl-[8px] w-full h-[28px] overflow-hidden text-ellipsis text-nowrap leading-7 rounded-[4px] hover:bg-gray-100 dark:hover:bg-dark-base35 ${
+                                      path === post.url &&
+                                      "text-light-purple bg-gray-100 dark:text-dark-purple dark:bg-dark-base35"
+                                    }`}
+                                  >{`${post.title}`}</div>
+                                </div>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
           </div>
         </div>
         {/** main content */}
