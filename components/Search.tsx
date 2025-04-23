@@ -32,6 +32,11 @@ interface Post {
 
 type Posts = Post[];
 
+type SearchResult = {
+  field: string;
+  result: number[];
+};
+
 const Search = ({
   all,
   searchActive,
@@ -41,7 +46,9 @@ const Search = ({
   searchActive: boolean;
   setSearchActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [results, setResults] = React.useState<any[]>([]);
+  const [results, setResults] = React.useState<
+    { title: string; content: string; url: string }[]
+  >([]);
   const data: Post[] = all.flat(); // 검색에 쓰일 데이터
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -71,14 +78,14 @@ const Search = ({
   /** 입력에 따라 검색 및 결과 렌더링 */
   async function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     const query = event.target.value;
-    let middleResults = document.search(query);
+    const middleResults = document.search(query) as SearchResult[];
 
     /** document -> worker로 바꾸면 필요함 */
     // 지금은 동기적으로 작동해서 필요없는데 worker로 바꾸면 비동기적으로 작동하기 때문에 필요함.
     //   results = await results;
 
     const flatResults = Array.isArray(middleResults)
-      ? middleResults.flatMap((r: any) => r.result)
+      ? middleResults.flatMap((r: SearchResult) => r.result)
       : [];
 
     const set = new Set(flatResults);
@@ -106,13 +113,13 @@ const Search = ({
 
   /** searchActvie === false 면 검색결과 리셋 */
   useEffect(() => {
-    !searchActive && setResults([]);
+    if (!searchActive) setResults([]);
   }, [searchActive]);
 
   return (
     <div
-      className={`z-10 fixed left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70  duration-200 ease-in-out" ${
-        searchActive ? "opacity-100" : "opacity-0 z-0"
+      className={`fixed left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70  duration-200 ease-in-out" ${
+        searchActive ? "opacity-100 z-10" : "opacity-0 z-0"
       }`}
       onClick={() => setSearchActive(false)}
     >
