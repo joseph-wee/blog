@@ -19,6 +19,7 @@ import {
   icon_search_dark,
   icon_sun,
 } from "@/assets";
+import { Search } from "@/components";
 
 /** use 쓸 때 메타데이터 쓰면 에러 */
 // export const metadata: Metadata = {
@@ -56,6 +57,7 @@ export default function RootLayout({
   const [mount, setMount] = useState(false); // 마운트 유무
   const [dark, setDark] = useState("null"); // 다크모드, 라이트모드
   const [menuActive, setMenuActive] = useState(false); // 모바일 메뉴 활성화 유무
+  const [searchActive, setSearchActive] = useState(false); // 검색 활성화 유무
 
   allAws.sort((a: Post, b: Post): number => {
     const upperCaseA = a.title.toUpperCase();
@@ -84,7 +86,7 @@ export default function RootLayout({
     return 0;
   });
 
-  const all = [allCsses, allAws, allCloudflares].sort(
+  const all: Posts[] = [allCsses, allAws, allCloudflares].sort(
     (a: Posts, b: Posts): number => {
       const upperCaseA = a[0].type.toUpperCase();
       const upperCaseB = b[0].type.toUpperCase();
@@ -177,64 +179,62 @@ export default function RootLayout({
           !mount && "opacity-0"
         } transition duration-200 ease-in-out dark:bg-dark-base25`}
       >
+        <Search
+          all={all}
+          searchActive={searchActive}
+          setSearchActive={setSearchActive}
+        />
         {/** 사이드바 데스크탑 */}
         <div className="fixed left-0 p-[12px] w-[280px] h-screen border-r-[1px] border-r-black md1000:hidden dark:border-r-dark-base60">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-[12px]">
             <Link href={"/"}>
               <h1 className="font-bold text-xl text-light-purple dark:text-dark-purple">
                 Joseph.log
               </h1>
             </Link>
             {/** 버튼 - 라이트, 다크 모드 */}
-            <button
-              className="flex items-center justify-center w-[22px] h-[22px] rounded-[100px] bg-light-base25 dark:bg-dark-base40   ease-in-out duration-200"
-              onClick={() => darkHandler()}
-            >
-              <Image
-                src={icon_sun}
-                alt="icon_sun"
-                width={16}
-                height={16}
-                className="dark:opacity-0"
-              />
-              <Image
-                src={icon_moon}
-                alt="icon_moon"
-                width={16}
-                height={16}
-                className="absolute opacity-0 dark:opacity-100"
-              />
-            </button>
+            <div className="flex items-center gap-[8px]">
+              <button
+                onClick={() => setSearchActive(!searchActive)}
+                className="flex items-center justify-center w-[22px] h-[22px] ease-in-out duration-200"
+              >
+                <Image
+                  src={icon_search}
+                  alt="icon_search"
+                  width={18}
+                  height={18}
+                  className="absolute"
+                />
+                <Image
+                  src={icon_search_dark}
+                  alt="icon_search"
+                  width={18}
+                  height={18}
+                  className="absolute opacity-0 dark:opacity-100"
+                />
+              </button>
+              <button
+                className="flex items-center justify-center w-[22px] h-[22px] rounded-[100px] bg-light-base25 dark:bg-dark-base40   ease-in-out duration-200"
+                onClick={() => darkHandler()}
+              >
+                <Image
+                  src={icon_sun}
+                  alt="icon_sun"
+                  width={16}
+                  height={16}
+                  className="dark:opacity-0"
+                />
+                <Image
+                  src={icon_moon}
+                  alt="icon_moon"
+                  width={16}
+                  height={16}
+                  className="absolute opacity-0 dark:opacity-100"
+                />
+              </button>
+            </div>
           </div>
-          {/** 검색 - 추후 구현 */}
-          <div
-            className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px]
-          duration-200 ease-in-out bg-white
-          dark:bg-dark-base10 dark:border-dark-base60"
-          >
-            <Image
-              src={icon_search}
-              alt="icon_search"
-              width={18}
-              height={18}
-              className="dark:opacity-0"
-            />
-            <Image
-              src={icon_search_dark}
-              alt="icon_search"
-              width={18}
-              height={18}
-              className="absolute opacity-0 dark:opacity-100"
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-600 placeholder:text-[14px] 
-             duration-200 ease-in-out bg-white
-              dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
-            />
-          </div>
+
           {/** 메뉴 */}
           <nav className="text-[14px] cursor-default dark:text-dark-text">
             <ul>
@@ -319,7 +319,7 @@ export default function RootLayout({
         md1000:block ${menuActive ? "h-screen" : "h-[53px]"}`}
         >
           <div
-            className={`flex items-center justify-between mb-3 px-[12px] h-[53px] border-b border-b-black ${
+            className={`flex items-center justify-between px-[12px] h-[53px] border-b border-b-black ${
               menuActive && "border-none"
             }`}
           >
@@ -330,6 +330,25 @@ export default function RootLayout({
             </Link>
             {/** 버튼 - 라이트, 다크 모드 */}
             <div className="flex items-center gap-[8px]">
+              <button
+                onClick={() => setSearchActive(!searchActive)}
+                className="flex items-center justify-center w-[22px] h-[22px] ease-in-out duration-200"
+              >
+                <Image
+                  src={icon_search}
+                  alt="icon_search"
+                  width={18}
+                  height={18}
+                  className="absolute"
+                />
+                <Image
+                  src={icon_search_dark}
+                  alt="icon_search"
+                  width={18}
+                  height={18}
+                  className="absolute opacity-0 dark:opacity-100"
+                />
+              </button>
               <button
                 className="flex items-center justify-center w-[20px] h-[20px] rounded-[100px] bg-gray-200 dark:bg-dark-base40 ease-in-out duration-200"
                 onClick={() => darkHandler()}
@@ -368,28 +387,6 @@ export default function RootLayout({
             </div>
           </div>
           <div className="px-[12px]">
-            {/** 검색 - 추후 구현 */}
-            <div className="flex items-center mb-3 px-[7px] w-full h-8 border-[1px] border-gray-200 rounded-[4px] duration-200 ease-in-out bg-white dark:bg-dark-base10 dark:border-dark-base60">
-              <Image
-                src={icon_search}
-                alt="icon_search"
-                width={18}
-                height={18}
-              />
-              <Image
-                src={icon_search_dark}
-                alt="icon_search"
-                width={18}
-                height={18}
-                className="absolute opacity-0 dark:opacity-100"
-              />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="px-[10px] w-full text-[14px] focus:outline-none
-              placeholder:text-gray-600 placeholder:text-[14px] duration-200 ease-in-out bg-white dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
-              />
-            </div>
             {/** 메뉴 */}
             <nav className="text-[14px] cursor-default dark:text-dark-text">
               <ul>
@@ -432,7 +429,7 @@ export default function RootLayout({
                         />
 
                         <span className="font-semibold leading-[30px]">
-                          {`${el[0].type}`}
+                          {`${el[0]._raw.sourceFileDir}`}
                         </span>
                       </button>
                       <ul>
