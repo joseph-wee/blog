@@ -10,3 +10,5 @@ export { default as icon_menu } from "./icon_menu.svg";
 export { default as icon_menu_dark } from "./icon_menu_dark.svg";
 export { default as icon_check } from "./icon_check.svg";
 export { default as icon_check_dark } from "./icon_check_dark.svg";
+export { default as icon_article_light } from "./icon_article_light.svg";
+export { default as icon_article_black } from "./icon_article_dark.svg";
