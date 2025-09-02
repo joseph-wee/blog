@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 
 import FlexSearch from "flexsearch";
@@ -119,7 +121,7 @@ const Search = ({
   return (
     <div
       className={`fixed left-0 top-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70  duration-200 ease-in-out" ${
-        searchActive ? "opacity-100 z-10" : "opacity-0 z-0"
+        searchActive ? "opacity-100 z-20" : "opacity-0 z-0"
       }`}
       onClick={() => setSearchActive(false)}
     >
@@ -128,7 +130,7 @@ const Search = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className="relative flex items-center px-3 mb-3 w-full h-8 
+          className="relative flex items-center px-3 mb-3 w-full h-8
           duration-200 ease-in-out"
         >
           <Image
@@ -160,7 +162,7 @@ const Search = ({
             className="px-[35px] text-[14px] w-full  h-8 border-[1px] border-light-base70
         rounded-[4px] outline-none focus:border-[2px] focus:border-light-purple
         dark:focus:border-dark-purple
-              placeholder:text-gray-600 placeholder:text-[14px] 
+              placeholder:text-gray-600 placeholder:text-[14px]
              duration-200 ease-in-out bg-white
               dark:bg-dark-base10 dark:text-dark-text dark:placeholder:text-gray-400"
           />

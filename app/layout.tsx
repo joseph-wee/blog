@@ -94,7 +94,7 @@ export default function RootLayout({
       if (upperCaseA > upperCaseB) return 1;
       if (upperCaseA < upperCaseB) return -1;
       return 0;
-    }
+    },
   ); // 모든 포스트
 
   const [dirAcitve, setDirActive] = useState(new Array(all.length).fill(false)); // 디렉토리 활성화 유무
@@ -314,7 +314,7 @@ export default function RootLayout({
 
         {/** 사이드바 모바일 */}
         <div
-          className={`hidden fixed z-10 left-0 overflow-hidden w-full bg-white 
+          className={`hidden fixed z-10 left-0 overflow-hidden w-full bg-white
          duration-200 ease-in-out dark:bg-dark-base25
         md1000:block ${menuActive ? "h-screen" : "h-[53px]"}`}
         >
@@ -468,7 +468,7 @@ export default function RootLayout({
           </div>
         </div>
         {/** main content */}
-        <main className="markdown mx-auto pt-[46px] px-[20px] w-[720px] overflow-hidden md1000:max-w-[720px] md1000:pt-[80px]">
+        <main className="markdown mx-auto z-10 pt-[46px] px-[20px] w-[720px] overflow-hidden md1000:max-w-[720px] md1000:pt-[80px]">
           {children}
         </main>
       </body>
