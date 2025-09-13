@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 
+// 60 : nav title, placeholder
+// 70 : input stroke
+// 80 : nav active bg, input bg, search active bg, line-dark
+// main-dark
+// text-dark
+// bg-dark
+// netural
+
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,62 +16,28 @@ export default {
   ],
   theme: {
     screens: {
-      md1000: { max: "1000px" },
+      md: { max: "1080px" },
     },
     extend: {
       colors: {
-        white: "#FFFFFF",
-        black: "#1E1E1E",
-        light: {
-          red: "#E93147",
-          green: "#08B94E",
-          orange: "#EC7500",
-          yellow: "#E0AC00",
-          cyan: "#00BFBC",
-          blue: "#086DDD",
-          purple: "#7852EE",
-          pink: "#D53984",
-          base00: "#FFFFFF",
-          base05: "#FCFCFC",
-          base10: "#FAFAFA",
-          base20: "#F6F6F6",
-          base25: "#E3E3E3",
-          base30: "#E0E0E0",
-          base35: "#D4D4D4",
-          base40: "#BDBDBD",
-          base50: "#ABABAB",
-          base60: "#707070",
-          base70: "#5A5A5A",
-          base100: "#5A5A5A",
-          accent1: "#8B6CEF",
-          accent2: "#9478F0",
-          accent3: "#9D83F1",
-        },
-        dark: {
-          red: "#FB464C",
-          green: "#44CF6E",
-          orange: "#E9973F",
-          yellow: "#E0DE71",
-          cyan: "#53DFDD",
-          blue: "#027AFF",
-          purple: "#A882FF",
-          pink: "#FA99CD",
-          base00: "#1E1E1E",
-          base10: "#242424",
-          base20: "#262626",
-          base25: "#2A2A2A",
-          base30: "#363636",
-          base35: "#3F3F3F",
-          base40: "#555555",
-          base50: "#666666",
-          base60: "#999999",
-          base70: "#BABABA",
-          base100: "#DADADA",
-          accent1: "#8B6CEF",
-          accent2: "#7C5AED",
-          accent3: "#997EF1",
-          text: "#DADADA",
-        },
+        base00: "var(--color-base-00)",
+        base05: "var(--color-base-05)",
+        base10: "var(--color-base-10)",
+        base20: "var(--color-base-20)",
+        base25: "var(--color-base-25)",
+        base30: "var(--color-base-30)",
+        base35: "var(--color-base-35)",
+        base40: "var(--color-base-40)",
+        base50: "var(--color-base-50)",
+        base60: "var(--color-base-60)",
+        base70: "var(--color-base-70)",
+        base100: "var(--color-base-100)",
+
+        main: "var(--color-main)",
+        ui: "var(--color-ui)",
+        bg: "var(--color-bg)",
+        codeBlock: "var(--color-code-block)",
+        codeInline: "var(--color-code-inline)",
       },
     },
   },

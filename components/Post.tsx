@@ -17,7 +17,7 @@ export default function Post({ post }: PostLayoutProps) {
         <h1 className="mb-[4px]">{post.title}</h1>
         <time
           dateTime={post.date}
-          className="flex items-center justify-end mb-1 text-xs text-gray-600 dark:text-dark-base70"
+          className="flex items-center justify-end mb-1 text-[14px] text-base60 dark:text-dark-base70"
         >
           {format(parseISO(post.date), "yyyy-MM-dd")}
         </time>

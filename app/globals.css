@@ -2,22 +2,512 @@
 @tailwind components;
 @tailwind utilities;
 
+/* src/styles/globals.css */
+
+/* 기본(라이트) 테마 설정 */
+:root {
+  --color-base-00: #ffffff;
+  --color-base-05: #fcfcfc;
+  --color-base-10: #fafafa;
+  --color-base-20: #f6f6f6;
+  --color-base-25: #e3e3e3;
+  --color-base-30: #e0e0e0;
+  --color-base-35: #d4d4d4;
+  --color-base-40: #bdbdbd;
+  --color-base-50: #ababab;
+  --color-base-60: #707070;
+  --color-base-70: #5c5c5c;
+  --color-base-100: #222222;
+
+  --color-main: #7852ee;
+  --color-ui: #222222;
+  --color-bg: #ffffff;
+  --color-code-block: #111829;
+  --color-code-inline: #f64900;
+}
+
+/* 다크 모드용 변수 재정의 */
+.dark {
+  --color-base-00: #1e1e1e;
+  --color-base-05: #212121;
+  --color-base-10: #242424;
+  --color-base-20: #262626;
+  --color-base-25: #2a2a2a;
+  --color-base-30: #363636;
+  --color-base-35: #3f3f3f;
+  --color-base-40: #555555;
+  --color-base-50: #666666;
+  --color-base-60: #999999;
+  --color-base-70: #b3b3b3;
+  --color-base-100: #dadada;
+
+  --color-main: #a68af9;
+  --color-ui: #dadada;
+  --color-bg: #1e1e1e;
+  --color-code-block: #111829;
+  --color-code-inline: #ff8904;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("../assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.py-05 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
+.markdown {
+  @apply text-ui leading-normal break-words;
+}
+
+.markdown > * + * {
+  @apply mt-0 mb-4;
+}
+
+.markdown li + li {
+  @apply leading-[1.8rem];
+}
+
+.markdown li > p + p {
+  @apply leading-[1.8rem];
+}
+
+.markdown strong {
+  @apply font-semibold;
+}
+
+.markdown a {
+  @apply text-main font-medium;
+}
+
+.markdown p {
+  @apply leading-[1.8rem];
+}
+
+.markdown strong a {
+  @apply font-bold;
+}
+
+/**
+h1: 36px ~ 48px
+
+h2: 28px ~ 32px
+
+h3: 22px ~ 24px
+
+h4: 18px ~ 20px
+
+h5: 16px (본문과 동일하게 하고 font-weight를 bold로 강조)
+
+h6: 16px (본문과 동일하게 하고 font-weight를 bold 또는 italic으로 강조)
+
+*/
+
+.markdown h1 {
+  @apply text-[36px] font-semibold mb-2;
+}
+
+.markdown h2 {
+  @apply text-[28px] font-semibold mt-[2rem] mb-[1rem];
+}
+
+.markdown h3 {
+  @apply text-[22px] font-semibold mt-[2rem] mb-[0.5rem];
+}
+
+.markdown h4 {
+  @apply text-[18px] font-semibold mt-[2rem] mb-[0.5rem];
+}
+
+.markdown h5 {
+  @apply text-[16px] font-semibold mt-[2rem] mb-[0.25rem];
+}
+
+.markdown h6 {
+  @apply text-[16px] font-semibold mt-[2rem] mb-[0.25rem];
+}
+
+/** img 상하 마진 추가 */
+.markdown img {
+  @apply my-9;
+}
+.markdown table {
+  @apply text-base border-gray-600;
+}
+
+.markdown blockquote {
+  @apply py-[1px] px-4 text-base50 border-l-4 border-main bg-gray-100;
+}
+
+.markdown code {
+  @apply font-mono text-sm text-codeInline inline rounded px-[6px] py-05 bg-base25;
+}
+
+.markdown pre {
+  @apply rounded py-[16px];
+}
+
+.markdown pre code {
+  @apply inline-block p-[12px] min-w-full w-max rounded-[4px] bg-codeBlock;
+}
+
+/** pl-4 값 주니까 딱 적당 */
+.markdown ul {
+  @apply leading-[1.8rem] pl-4 list-disc;
+}
+
+/**
+아래와 같이 작성된 경우 두번째 - test 의 들여쓰기가
+적당히 되기 위해서는 아래 css를 적용해야함.
+
+- test
+  - test
+
+*/
+.markdown li > ul {
+  @apply leading-[1.8rem] pl-8 list-disc;
+}
+
+.markdown .task-list-item {
+  @apply flex items-center;
+}
+
+.markdown .contains-task-list {
+  @apply list-none pl-[4px];
+}
+
+.markdown [type="checkbox"] {
+  @apply appearance-none w-[16px] h-[16px] bg-clip-content border border-gray-400 rounded mr-[6px];
+}
+
+.markdown [type="checkbox"]:checked {
+  @apply appearance-none w-[16px] h-[16px] bg-clip-content border-none rounded bg-main bg-[url('../assets/icon_check.svg')] bg-center  dark:bg-[url('../assets/icon_check_dark.svg')];
+}
+
+.markdown ol {
+  @apply leading-[1.8rem] pl-8 list-decimal;
+}
+
+.markdown kbd {
+  @apply text-xs inline-block rounded border px-1 py-05 align-middle font-normal font-mono shadow;
+}
+
+.markdown table {
+  @apply text-base border-gray-600;
+}
+
+.markdown th {
+  @apply border py-1 px-3;
+}
+
+.markdown td {
+  @apply border py-1 px-3;
+}
+
+/* Override pygments style background color. */
+
+/* 코드블럭 패딩값 적용 - 안하면 모바일에서 우측 패딩값 적용 안댐 */
+span[class*="code-line"] {
+  padding-left: 5px;
+  padding-right: 16px;
+}
+
+pre[class*="language-"],
+code[class*="language-"] {
+  color: #d4d4d4;
+  font-size: 14px;
+  text-shadow: none;
+  font-family: "JetBrainsMono", Menlo, Monaco, Consolas, "Andale Mono",
+    "Ubuntu Mono", "Courier New", monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::selection,
+code[class*="language-"]::selection,
+pre[class*="language-"] *::selection,
+code[class*="language-"] *::selection {
+  text-shadow: none;
+  background: #264f78;
+}
+
+@media print {
+  pre[class*="language-"],
+  code[class*="language-"] {
+    text-shadow: none;
+  }
+}
+
+pre[class*="language-"] {
+  overflow: auto;
+  background: #1e1e1e;
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: 0.1em 0.3em;
+  border-radius: 0.3em;
+  color: #db4c69;
+  background: #1e1e1e;
+}
+/*********************************************************
+* Tokens
+*/
+.namespace {
+  opacity: 0.7;
+}
+
+.token.doctype .token.doctype-tag {
+  color: #569cd6;
+}
+
+.token.doctype .token.name {
+  color: #9cdcfe;
+}
+
+.token.comment,
+.token.prolog {
+  color: #6a9955;
+}
+
+.token.punctuation,
+.language-html .language-css .token.punctuation,
+.language-html .language-javascript .token.punctuation {
+  color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.inserted,
+.token.unit {
+  color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.deleted {
+  color: #ce9178;
+}
+
+.language-css .token.string.url {
+  text-decoration: underline;
+}
+
+.token.operator,
+.token.entity {
+  color: #d4d4d4;
+}
+
+.token.operator.arrow {
+  color: #569cd6;
+}
+
+.token.atrule {
+  color: #ce9178;
+}
+
+.token.atrule .token.rule {
+  color: #c586c0;
+}
+
+.token.atrule .token.url {
+  color: #9cdcfe;
+}
+
+.token.atrule .token.url .token.function {
+  color: #dcdcaa;
+}
+
+.token.atrule .token.url .token.punctuation {
+  color: #d4d4d4;
+}
+
+.token.keyword {
+  color: #569cd6;
+}
+
+.token.keyword.module,
+.token.keyword.control-flow {
+  color: #c586c0;
+}
+
+.token.function,
+.token.function .token.maybe-class-name {
+  color: #dcdcaa;
+}
+
+.token.regex {
+  color: #d16969;
+}
+
+.token.important {
+  color: #569cd6;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.constant {
+  color: #9cdcfe;
+}
+
+.token.class-name,
+.token.maybe-class-name {
+  color: #4ec9b0;
+}
+
+.token.console {
+  color: #9cdcfe;
+}
+
+.token.parameter {
+  color: #9cdcfe;
+}
+
+.token.interpolation {
+  color: #9cdcfe;
+}
+
+.token.punctuation.interpolation-punctuation {
+  color: #569cd6;
+}
+
+.token.boolean {
+  color: #569cd6;
+}
+
+.token.property,
+.token.variable,
+.token.imports .token.maybe-class-name,
+.token.exports .token.maybe-class-name {
+  color: #9cdcfe;
+}
+
+.token.selector {
+  color: #d7ba7d;
+}
+
+.token.escape {
+  color: #d7ba7d;
+}
+
+.token.tag {
+  color: #569cd6;
+}
+
+.token.tag .token.punctuation {
+  color: #808080;
+}
+
+.token.cdata {
+  color: #808080;
+}
+
+.token.attr-name {
+  color: #9cdcfe;
+}
+
+.token.attr-value,
+.token.attr-value .token.punctuation {
+  color: #ce9178;
+}
+
+.token.attr-value .token.punctuation.attr-equals {
+  color: #d4d4d4;
+}
+
+.token.entity {
+  color: #569cd6;
+}
+
+.token.namespace {
+  color: #4ec9b0;
+}
+/*********************************************************
+* Language Specific
+*/
+
+pre[class*="language-javascript"],
+code[class*="language-javascript"],
+pre[class*="language-jsx"],
+code[class*="language-jsx"],
+pre[class*="language-typescript"],
+code[class*="language-typescript"],
+pre[class*="language-tsx"],
+code[class*="language-tsx"] {
+  color: #9cdcfe;
+}
+
+pre[class*="language-css"],
+code[class*="language-css"] {
+  color: #ce9178;
+}
+
+pre[class*="language-html"],
+code[class*="language-html"] {
+  color: #d4d4d4;
+}
+
+.language-regex .token.anchor {
+  color: #dcdcaa;
+}
+
+.language-html .token.punctuation {
+  color: #808080;
+}
+/*********************************************************
+* Line highlighting
+*/
+pre[class*="language-"] > code[class*="language-"] {
+  position: relative;
+  z-index: 1;
+}
+
+.line-highlight.line-highlight {
+  background: #f7ebc6;
+  box-shadow: inset 5px 0 0 #f7d87c;
+  z-index: 0;
+}
+
 /* 스크롤바 넓이 지정 */
 ::-webkit-scrollbar {
-  @apply w-[12px];
+  @apply w-[12px] h-[10px];
 }
 
 /* 스크롤바 트랙 꾸미기 */
 ::-webkit-scrollbar-track {
-  @apply bg-light-base30 dark:bg-dark-base30;
+  @apply bg-bg;
 }
 
 /* 스크롤바 손잡이 꾸미기 */
 ::-webkit-scrollbar-thumb {
-  @apply bg-light-base40 dark:bg-dark-base40;
+  @apply bg-base20;
 }
 
 /* 스크롤바 손잡이 호버 시 색 */
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-light-base50 dark:bg-dark-base50;
+  @apply bg-base30;
 }

@@ -1,2 +1,2 @@
-export { default as Search } from "./Search";
 export { default as Post } from "./Post";
+// export { SearchPost } from "./SearchPost";
