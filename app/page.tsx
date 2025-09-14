@@ -1,3 +1,7 @@
+import { Github } from "@/components/button/Github";
+import { Mail } from "@/components/button/Mail";
+import Link from "next/link";
+
 export const generateMetadata = () => {
   return {
     title: "Joseph.log",
@@ -12,5 +16,29 @@ export const generateMetadata = () => {
 };
 
 export default function Home() {
-  return <div className="">안녕하세요. 개발관련 메모를 남기는 공간입니다.</div>;
+  return (
+    <div>
+      <h1>README</h1>
+      <br />
+      개발관련 메모들을 남기는 공간입니다.
+      <br />
+      <br />
+      <div className="flex gap-[10px]">
+        <Link
+          href="mailto:weeyosup@gmail.com"
+          target="_blank"
+          className="!text-ui"
+        >
+          <Mail w={24} h={24} />
+        </Link>
+        <Link
+          href="https://github.com/joseph-wee"
+          target="_blank"
+          className="!text-ui"
+        >
+          <Github w={24} h={24} />
+        </Link>
+      </div>
+    </div>
+  );
 }
